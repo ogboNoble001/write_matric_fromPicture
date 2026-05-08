@@ -21,12 +21,12 @@ app.post('/api/extract-matric', upload.single('image'), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: 'No image uploaded' });
     }
-    
+
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-    
+
     const base64Image = req.file.buffer.toString('base64');
     const mimeType = req.file.mimetype;
-    
+
     const prompt = `
       You are a data extraction assistant. Extract ALL student records visible in this image.
       
@@ -46,18 +46,18 @@ app.post('/api/extract-matric', upload.single('image'), async (req, res) => {
       Example format:
       [{"name":"JOHN DOE CHUKWU","matric":"202440123456AB","department":"AGRICULTURAL BUSINESS","level":"100","gender":"MALE"}]
     `;
-    
+
     const result = await model.generateContent([
       prompt,
       { inlineData: { mimeType, data: base64Image } }
     ]);
-    
+
     const text = result.response.text().trim();
     const clean = text.replace(/```json|```/g, '').trim();
     const data = JSON.parse(clean);
-    
+
     res.json({ success: true, count: data.length, data });
-    
+
   } catch (err) {
     console.error('Extraction error:', err);
     res.status(500).json({ error: 'Extraction failed', details: err.message });
