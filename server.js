@@ -22,7 +22,7 @@ app.post('/api/extract-matric', upload.single('image'), async (req, res) => {
       return res.status(400).json({ error: 'No image uploaded' });
     }
     
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     
     const base64Image = req.file.buffer.toString('base64');
     const mimeType = req.file.mimetype;
