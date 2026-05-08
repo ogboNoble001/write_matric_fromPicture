@@ -18,3 +18,5 @@
     "nodemon": "^3.1.0"
   }
 }
+GEMINI_API_KEY=AIzaSyBZAh2OIbb2pwqhrEuYigfLVrSZwqdtbFc
+PORT=3000
